@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<head>
+    <title>A1-PokémonAPI</title>
+
+    <style>
+        #outer{
+                display: flex;
+                flex-direction: column;
+            }
+
+        body {
+            margin: 0px;
+            padding: 0%;
+            background-color: #fefbd8;
+        }
+
+        header {
+                text-align: center;
+                color: black;
+                background-color:  #92a8d1;
+
+            }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color:  #92a8d1;
+            padding: 14px 16px;
+        }
+
+        footer {
+            text-align: center;
+            color: rgb(151, 148, 148);
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div id="outer">
+        <header>
+            <h1>
+                PokeAPI Client
+            </h1>
+        </header>
+
+        <nav>
+            <input id="text" type="text" value="" style="Width:20%" placeholder="Search by name..."/>
+            <select name="text" id="textType">
+                <option value="name">By name</option>
+                <option value="type">By type</option>
+                <option value="height">By height</option>
+              </select>
+            <button>Search</button>
+
+
+        </nav>
+
+
+
+        <footer>
+            <h5>
+                PokeAPI-client © LeoLi 2022
+            </h5>
+        </footer>
+
+    </div>
+
+
+    <!-- <input id="text" type="text" value="" style="Width:20%"/>
+    <button>Find PokeMon By Name</button>
+
+    <p>Results</p>
+    <div v-html="link.FUNCTIONVARIABLE"></div> -->
+
+</body>
+
+<script type="text/javascript">
+    var apiUrl = 'https://pokeapi.co/api/v2/pokemon/ditto/';
+    fetch(apiUrl).then(response => {
+      return response.json();
+    }).then(data => {
+      // Work with JSON data here
+      console.log(data);
+    }).catch(err => {
+      // Do something for an error here
+    });
+</script>
+
+
