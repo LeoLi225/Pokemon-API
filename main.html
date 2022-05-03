@@ -1,13 +1,15 @@
-<!DOCTYPE html>
+<html>
 
 <head>
     <title>A1-PokémonAPI</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="myscripts.js"></script>
 
     <style>
-        #outer{
-                display: flex;
-                flex-direction: column;
-            }
+        #outer {
+            display: flex;
+            flex-direction: column;
+        }
 
         body {
             margin: 0px;
@@ -16,17 +18,42 @@
         }
 
         header {
-                text-align: center;
-                color: black;
-                background-color:  #92a8d1;
+            text-align: center;
+            color: black;
+            background-color: #fefbd8;
 
-            }
+        }
 
         nav {
             display: flex;
             justify-content: center;
-            background-color:  #92a8d1;
+            background-color: #92a8d1;
             padding: 14px 16px;
+        }
+
+        main {
+            /* margin-bottom: 30px; */
+            gap: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-content: space-around;
+            padding: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        img {
+            border-radius: 5px;
+            width: 50%;
+        }
+
+        .images_group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         footer {
@@ -34,10 +61,22 @@
             color: rgb(151, 148, 148);
         }
 
+        .image_container {
+            text-align: center;
+            background-color:  #eee;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 20px;
+        }
+
+        .image_container img {
+            margin-top: 20px;
+            max-width: 90%;
+        }
+
     </style>
 
 </head>
-
 
 <body>
 
@@ -49,16 +88,19 @@
         </header>
 
         <nav>
-            <input id="text" type="text" value="" style="Width:20%" placeholder="Search by name..."/>
+            <input id="text" type="text" value="" style="Width:20%" placeholder="Search by name..." />
             <select name="text" id="textType">
                 <option value="name">By name</option>
                 <option value="type">By type</option>
                 <option value="height">By height</option>
-              </select>
+            </select>
             <button>Search</button>
-
-
         </nav>
+
+        <main>
+
+
+        </main>
 
 
 
@@ -70,25 +112,6 @@
 
     </div>
 
-
-    <!-- <input id="text" type="text" value="" style="Width:20%"/>
-    <button>Find PokeMon By Name</button>
-
-    <p>Results</p>
-    <div v-html="link.FUNCTIONVARIABLE"></div> -->
-
 </body>
 
-<script type="text/javascript">
-    var apiUrl = 'https://pokeapi.co/api/v2/pokemon/ditto/';
-    fetch(apiUrl).then(response => {
-      return response.json();
-    }).then(data => {
-      // Work with JSON data here
-      console.log(data);
-    }).catch(err => {
-      // Do something for an error here
-    });
-</script>
-
-
+</html>
