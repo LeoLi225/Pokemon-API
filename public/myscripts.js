@@ -56,10 +56,14 @@ async function loadNineImages() {
 type_g = ''
 count = 0;
 loop = 0;
+a = 0;
+b = 9;
 function processPokeResponse(data){
     for (i = 0; i < data.types.length ; i++){
-        if (data.types[i].type.name == type_g && count < 9) {
+        if (data.types[i].type.name == type_g) {
             count += 1;
+        }
+        if (data.types[i].type.name == type_g && count <= b && count > a) {
 
             if (count % 3 == 1) { // only when i= 1, 4, 7
                 $("main").append( `<text${loop} class="images_group">`)
@@ -97,7 +101,7 @@ function processPokeResponse(data){
 
 function loadNew() {
     count = 0;
-    for (i = 1; i < 500; i++){
+    for (i = 1; i < 898; i++){
         // for each pokemon
         $.ajax({
             type: "get",
@@ -116,9 +120,23 @@ function display(type_){
     if (type_g == "random") {
         loadNineImages();
     } else {
+        a = 0;
+        b = 9;
         loadNew();
     }
 
+}
+
+function send() {
+    $("main").empty()
+    to_add = ''
+    if(type_g == '' || type_g == 'random') {
+        loadNineImages();
+    } else {
+        a += 9;
+        b += 9;
+        loadNew();
+    }
 }
 
 

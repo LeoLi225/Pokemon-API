@@ -5,28 +5,71 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            background-color: wheat;
+        }
+        .image_container {
+            text-align: center;
+            background-color:  #eee;
+            padding: 30px;
+            margin: 10px;
+            border-radius: 20px;
+        }
+
+        .image_container img {
+            margin-top: 20px;
+            max-width: 90%;
+        }
+
+        #inside {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .container {
+            text-align: center;
+            background-color:  rgba(158, 206, 146, 0.547);
+            padding: 30px;
+            margin: 10px;
+            border-radius: 20px;
+        }
+        img {
+            border-radius: 5px;
+            width: 80%;
+        }
+
+        @media screen and (max-width: 700px) {
+            #inside {
+            flex-direction: column;
+
+        }
+
+        }
+
+
+    </style>
 </head>
 <body>
-    <h1>
-        Hi there.
+    <div class="image_container">
+        <h1>#<%= id %></h1>
+        <h1><%= name %></h1>
+        <div id="inside">
+            <div>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<%= id %>.png" alt="">
+            </div>
 
-        <br>
+            <div class="container">
+                <h2>Base Stats</h2><h4>(Total 200)</h4>
+                HP: <%= hp %>  <progress id="file" value="<%= hp %>" max="200"><%= hp %></progress> <br><br>
+                Attack: <%= attack %> <progress id="file" value="<%= attack %>" max="200"><%= attack %></progress><br><br>
+                Defense: <%= defense %> <progress id="file" value="<%= defense %>" max="200"><%= defense %></progress><br><br>
+                Special-attack: <%= special_attack %> <progress id="file" value="<%= special_attack %>" max="200"><%= special_attack %></progress><br><br>
+                Speed: <%= speed %> <progress id="file" value="<%= speed %>" max="200"><%= speed %></progress><br><br>
+            </div>
+        </div>
 
-        This poemon id: <%= id %>
-        <br>
-
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<%= id %>.png" alt="">
-
-        <br>
-        Name: <%= name %>
-        <br>
-        HP: <progress id="file" value="<%= hp %>" max="255"><%= hp %></progress>
-
-
-
-
-
-    </h1>
-    
+    </div>
 </body>
 </html>
