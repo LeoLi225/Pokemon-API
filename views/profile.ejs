@@ -9,9 +9,21 @@
 <body>
     <h1>
         Hi there.
-        This poemon id: <%= id %>
 
-        res.write
+        <br>
+
+        This poemon id: <%= id %>
+        <br>
+
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<%= id %>.png" alt="">
+
+        <br>
+        Name: <%= name %>
+        <br>
+        HP: <progress id="file" value="<%= hp %>" max="255"><%= hp %></progress>
+
+
+
 
 
     </h1>
