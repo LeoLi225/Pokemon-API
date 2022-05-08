@@ -38,6 +38,14 @@ function load() {
     }
 }
 
+// function getHistory(data) {
+//     $('.history').append(
+//             <div>
+//                 <a href="../profile/${data.id}">${data.name}</a>
+//             </div>
+//         )
+// }
+
 function process(data) {
     counter = 0
     for (a = 0; a < length; a++) {
