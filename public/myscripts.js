@@ -1,3 +1,69 @@
+string = ''
+length = 0
+$(document).ready(function () {
+    const searchInput = document.getElementById('search');
+
+    searchInput.addEventListener('keyup', (e) => {
+        const value = e.target.value
+        string = value
+        length = value.length
+        console.log(value)
+
+        if (value == '') {
+            send()
+        } else {
+            $("main").empty()
+            load()
+        }
+    })
+})
+
+function load() {
+    count = 0;
+    for (i = 1; i < 898; i++) {
+        // for each pokemon
+        $.ajax({
+            type: "get",
+            url: `https://pokeapi.co/api/v2/pokemon/${i}`,
+            success: process
+        })
+    }
+}
+
+function process(data) {
+    counter = 0
+    for (a = 0; a < length; a++) {
+        if (data.name[a] == string[a]) {
+            counter++;
+        }
+    }
+    if(counter == length) {
+        count++;
+    }
+    if(counter == length && count <= 9) {
+        if (count % 3 == 1) { // only when i= 1, 4, 7
+            $("main").append(`<text${loop} class="images_group">`)
+        }
+
+        const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
+        $("text" + loop).append(`
+        <div class="image_container" id="${data.id}">
+            <a href="/profile/${data.id}">
+            <img src="${data.sprites.other["official-artwork"].front_default}">
+            </a>
+            <div> Id: ${data.id} </div>
+            <div> Name: ${upperCaseName} </div>
+        </div>`)
+
+        if (count % 3 == 0) { // only when i= 3, 6, 9
+            $("main").append(`</text${loop}>`)
+            loop++;
+        }
+    }
+}
+
+
+
 to_add = ''
 
 const colors = {
@@ -17,7 +83,7 @@ const colors = {
     normal: '#F5F5F5'
 }
 
-function processPokeResp(data){
+function processPokeResp(data) {
     const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
     to_add += `
     <div class="image_container">
@@ -58,19 +124,19 @@ count = 0;
 loop = 0;
 a = 0;
 b = 9;
-function processPokeResponse(data){
-    for (i = 0; i < data.types.length ; i++){
+function processPokeResponse(data) {
+    for (i = 0; i < data.types.length; i++) {
         if (data.types[i].type.name == type_g) {
             count += 1;
         }
         if (data.types[i].type.name == type_g && count <= b && count > a) {
 
             if (count % 3 == 1) { // only when i= 1, 4, 7
-                $("main").append( `<text${loop} class="images_group">`)
+                $("main").append(`<text${loop} class="images_group">`)
             }
 
             const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
-            $("text" + loop).append( `
+            $("text" + loop).append(`
             <div class="image_container" id="${data.id}">
                 <a href="/profile/${data.id}">
                 <img src="${data.sprites.other["official-artwork"].front_default}">
@@ -80,11 +146,11 @@ function processPokeResponse(data){
             </div>`)
 
             if (count % 3 == 0) { // only when i= 3, 6, 9
-                $("main").append( `</text${loop}>`)
+                $("main").append(`</text${loop}>`)
                 loop++;
             }
         }
-        if(type_g == 'grass') {
+        if (type_g == 'grass') {
             document.getElementById(data.id).style.backgroundColor = colors.grass;
         } else if (type_g == 'electric') {
             document.getElementById(data.id).style.backgroundColor = colors.electric;
@@ -101,7 +167,7 @@ function processPokeResponse(data){
 
 function loadNew() {
     count = 0;
-    for (i = 1; i < 898; i++){
+    for (i = 1; i < 898; i++) {
         // for each pokemon
         $.ajax({
             type: "get",
@@ -113,7 +179,7 @@ function loadNew() {
 
 
 
-function display(type_){
+function display(type_) {
     $("main").empty()
     type_g = type_
     to_add = ''
@@ -130,7 +196,7 @@ function display(type_){
 function send() {
     $("main").empty()
     to_add = ''
-    if(type_g == '' || type_g == 'random') {
+    if (type_g == '' || type_g == 'random') {
         loadNineImages();
     } else {
         a += 9;
@@ -140,7 +206,7 @@ function send() {
 }
 
 
-function setup(){
+function setup() {
 
     display($("#poke_type option:selected").val());
 
@@ -148,10 +214,10 @@ function setup(){
         // alert($(this).attr("value"));
         poke_type = $("#poke_type option:selected").val();
         display(poke_type);
-
-
-      })
+    })
 }
 
 
 $(document).ready(setup)
+
+
