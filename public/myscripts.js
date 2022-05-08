@@ -36,15 +36,16 @@ function load() {
             success: process
         })
     }
+
 }
 
-// function getHistory(data) {
-//     $('.history').append(
-//             <div>
-//                 <a href="../profile/${data.id}">${data.name}</a>
-//             </div>
-//         )
-// }
+function history() {
+    $('.history').append(
+            `<div>
+                <a href="../profile/25">Pikachu</a>
+            </div>`
+        )
+}
 
 function process(data) {
     counter = 0
@@ -78,6 +79,7 @@ function process(data) {
         }
 
     }
+
 }
 
 to_add = ''
