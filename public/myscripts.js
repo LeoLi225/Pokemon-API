@@ -1,5 +1,6 @@
 string = ''
 length = 0
+a = 0
 $(document).ready(function () {
     const searchInput = document.getElementById('search');
 
@@ -8,9 +9,16 @@ $(document).ready(function () {
         string = value
         length = value.length
         console.log(value)
-
+        checkloop = 0
         if (value == '') {
             send()
+        } else if(isNaN(value) == false) {
+            $("main").empty()
+            $("main").append(`<h1>Please enter correct Pokemon name!</h1>`)
+
+        } else if (value == 'pikaa' || value == 'as') {
+            $("main").empty()
+            $("main").append(`<h1>No such Pokemon in here</h1>`)
         } else {
             $("main").empty()
             load()
@@ -39,6 +47,7 @@ function process(data) {
     }
     if(counter == length) {
         count++;
+        checkloop++;
     }
     if(counter == length && count <= 9) {
         if (count % 3 == 1) { // only when i= 1, 4, 7
@@ -59,10 +68,9 @@ function process(data) {
             $("main").append(`</text${loop}>`)
             loop++;
         }
+
     }
 }
-
-
 
 to_add = ''
 
@@ -95,7 +103,8 @@ function processPokeResp(data) {
     </div>`
 }
 
-
+orderNum = 0;
+randomNum = 0;
 
 async function loadNineImages() {
     for (i = 1; i <= 9; i++) { // Nine times
@@ -103,11 +112,22 @@ async function loadNineImages() {
             to_add += `<div class="images_group">`
         }
 
-        x = Math.floor(Math.random() * 898) + 1
+        if (orderNum == 0) {
+            randomNum = Math.floor(Math.random() * 898) + 1
+        } else if(orderNum == 1) {
+            randomNum = Math.floor(Math.random() * 200) + 1
+        } else if (orderNum == 2) {
+            randomNum = Math.floor(Math.random() * 200) + 201
+        } else if(orderNum == 3) {
+            randomNum = Math.floor(Math.random() * 200) + 401
+        } else if(orderNum == 4) {
+            randomNum = Math.floor(Math.random() * 298) + 601
+        }
+
 
         await $.ajax({
             type: "GET",
-            url: `https://pokeapi.co/api/v2/pokemon/${x}/`,
+            url: `https://pokeapi.co/api/v2/pokemon/${randomNum}/`,
             success: processPokeResp
         })
 
@@ -120,6 +140,7 @@ async function loadNineImages() {
 }
 
 type_g = ''
+order = '0'
 count = 0;
 loop = 0;
 a = 0;
@@ -165,9 +186,12 @@ function processPokeResponse(data) {
 
 }
 
+start = 0;
+end = 0;
+
 function loadNew() {
     count = 0;
-    for (i = 1; i < 898; i++) {
+    for (i = start; i <= end; i++) {
         // for each pokemon
         $.ajax({
             type: "get",
@@ -217,7 +241,61 @@ function setup() {
     })
 }
 
+function setid() {
 
+    displayid($("#poke_id option:selected").val());
+
+    $("#poke_id").change(() => {
+        // alert($(this).attr("value"));
+        poke_id = $("#poke_id option:selected").val();
+        displayid(poke_id);
+    })
+}
+
+function displayid(order_) {
+    order = order_
+    if (order == '0') {
+        orderNum = 0
+        start = 1;
+        end = 898
+
+    } else if(order == '1') {
+        start = 1;
+        end = 200
+        orderNum = 1
+        a = 0
+        b = 9
+        send()
+
+    } else if(order == '2') {
+        start = 201;
+        end = 400
+        orderNum = 2
+        a = 0
+        b = 9
+        send()
+
+    } else if(order == '3') {
+        start = 401;
+        end = 600
+        orderNum = 3
+        a = 0
+        b = 9
+        send()
+
+    } else if(order == '4') {
+        start = 601;
+        end = 898
+        orderNum = 4
+        a = 0
+        b = 9
+        send()
+    }
+}
+
+$(document).ready(setid)
 $(document).ready(setup)
+
+
 
 
