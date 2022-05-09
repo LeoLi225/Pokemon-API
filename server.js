@@ -10,7 +10,7 @@ app.listen(5000, function (err){
         console.log(err);
 })
 
-app.listen(process.env.PORT || port, () => console.log(`Example app ;;istrning at http://localhost:$(port)`));
+// app.listen(process.env.PORT || 5000);
 
 app.get('/profile/:id', function (req, res) {
 
