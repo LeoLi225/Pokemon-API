@@ -1,3 +1,5 @@
+const { profileEnd } = require('console');
+const { prototype } = require('events');
 const express = require('express')
 const app = express()
 app.set('view engine', 'ejs');
@@ -7,6 +9,8 @@ app.listen(5000, function (err){
     if (err) 
         console.log(err);
 })
+
+app.listen(process.env.PORT || port, () => console.log(`Example app ;;istrning at http://localhost:$(port)`));
 
 app.get('/profile/:id', function (req, res) {
 
