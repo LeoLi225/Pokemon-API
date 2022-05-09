@@ -5,7 +5,7 @@ const app = express()
 app.set('view engine', 'ejs');
 const https = require('https');
 
-app.listen(5000, function (err){
+app.listen(process.env.PORT || 5000, function (err){
     if (err) 
         console.log(err);
 })
