@@ -4,13 +4,88 @@ const express = require('express')
 const app = express()
 app.set('view engine', 'ejs');
 const https = require('https');
+const bodyparser = require("body-parser");
+
+const mongoose = require('mongoose');
+
+app.use(bodyparser.urlencoded({
+    extended: true
+}));
+
+mongoose.connect("mongodb://localhost:27017/timelineDB",
+    { useNewUrlParser: true, useUnifiedTopology: true });
+const timelineSchema = new mongoose.Schema({
+    text: String,
+    hits: Number,
+    time: String
+});
+const timelineModel = mongoose.model("timelines", timelineSchema);
+
+app.get('/timeline/getAllEvents', function (req, res) {
+    timelineModel.find({}, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send(data);
+    });
+})
+
+app.put('/timeline/insert', function (req, res) {
+    console.log(req.body)
+    timelineModel.create({
+        'text': req.body.text,
+        'time': req.body.time,
+        'hits': req.body.hits
+    }, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send("Insertion is successful!");
+    });
+})
+
+app.get('/timeline/inscreaseHits/:id', function (req, res) {
+    // console.log(req.body)
+    timelineModel.updateOne({
+        '_id': req.params.id
+    },{
+        $inc: {'hits': 1}
+    } ,function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send("Update request is successful!");
+    });
+})
+
+app.get('/timeline/delete/:id', function (req, res) {
+    // console.log(req.body)
+    timelineModel.remove({
+        '_id': req.params.id
+    }, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send("Delete request is successful!");
+    });
+})
+
+
+
 
 app.listen(process.env.PORT || 5000, function (err){
     if (err) 
         console.log(err);
 })
 
-// app.listen(process.env.PORT || 5000);
 
 app.get('/profile/:id', function (req, res) {
 

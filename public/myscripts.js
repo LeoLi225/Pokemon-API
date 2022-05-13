@@ -239,6 +239,21 @@ function send() {
     }
 }
 
+function addNewEvent(poke_type) {
+    $.ajax({
+        url: "http://localhost:5000/timeline/insert",
+        type: "put",
+        data: {
+            text: `Client has search for ${poke_type}`,
+            hits: 1,
+            time: "at time Y"
+        },
+        success: (res) => {
+            console.log(res)
+        }
+    })
+}
+
 
 function setup() {
 
@@ -248,6 +263,7 @@ function setup() {
         // alert($(this).attr("value"));
         poke_type = $("#poke_type option:selected").val();
         display(poke_type);
+        addNewEvent(poke_type)
     })
 }
 
