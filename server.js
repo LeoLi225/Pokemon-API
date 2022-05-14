@@ -109,7 +109,7 @@ app.listen(process.env.PORT || 5000, function (err){
 
 app.get('/profile/:id', function (req, res) {
 
-    const url =`https://pokeapi.co/api/v2/pokemon/${req.params.id}`
+    const url =`http:/localhost:5000/pokemon/${req.params.id}`
 
     data = ""
     https.get(url, function(https_res) {

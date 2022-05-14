@@ -13,7 +13,7 @@ function loadEventsToMainDiv() {
                 $("text" + i).append(`
                     <p> Event Text -  ${r[i].text} </p>
 
-                    <p> Event Time - ${now} </p>
+                    <p> Event Time - ${r[i].time} </p>
 
                     <p> Event Hits - ${r[i].hits} </p>
                     <button class="likeButtons" onClick="window.location.reload(true)" id="${r[i]["_id"]}"> Like! </button>

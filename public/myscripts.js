@@ -239,6 +239,9 @@ function send() {
     }
 }
 
+var now = new Date(Date.now());
+var formatted = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+
 function addNewEvent(poke_type) {
     $.ajax({
         url: "http://localhost:5000/timeline/insert",
@@ -246,7 +249,7 @@ function addNewEvent(poke_type) {
         data: {
             text: `Client has search for ${poke_type}`,
             hits: 1,
-            time: "at time Y"
+            time: now,
         },
         success: (res) => {
             console.log(res)
