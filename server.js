@@ -12,7 +12,7 @@ app.use(bodyparser.urlencoded({
     extended: true
 }));
 
-mongoose.connect("mongodb://localhost:27017/timelineDB",
+mongoose.connect("mongodb+srv://Leo:Lcyang0319.@cluster0.lbozp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true });
 const timelineSchema = new mongoose.Schema({
     text: String,
@@ -29,6 +29,26 @@ app.get('/timeline/getAllEvents', function (req, res) {
             console.log("Data " + data);
         }
         res.send(data);
+    });
+})
+
+const pokemonSchema = new mongoose.Schema({
+    id: Number,
+    name: String
+});
+const pokemonModel = mongoose.model("pokemons", pokemonSchema);
+
+app.get('/pokemon/:id', function (req, res) {
+    pokemonModel.find({
+        id: req.params.id,
+
+    }, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send(data[0]);
     });
 })
 
