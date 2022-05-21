@@ -32,7 +32,7 @@ function load() {
         // for each pokemon
         $.ajax({
             type: "get",
-            url: `http://localhost:5000/pokemon/${i}`,
+            url: `https://pokeapi.co/api/v2/pokemon/${i}`,
             success: process
         })
     }
@@ -122,22 +122,22 @@ async function loadNineImages() {
             to_add += `<div class="images_group">`
         }
 
-        // if (orderNum == 0) {
-            randomNum = Math.floor(Math.random() * 29) + 1
-        // } else if(orderNum == 1) {
-        //     randomNum = Math.floor(Math.random() * 200) + 1
-        // } else if (orderNum == 2) {
-        //     randomNum = Math.floor(Math.random() * 200) + 201
-        // } else if(orderNum == 3) {
-        //     randomNum = Math.floor(Math.random() * 200) + 401
-        // } else if(orderNum == 4) {
-        //     randomNum = Math.floor(Math.random() * 298) + 601
-        // }
+        if (orderNum == 0) {
+            randomNum = Math.floor(Math.random() * 898) + 1
+        } else if(orderNum == 1) {
+            randomNum = Math.floor(Math.random() * 200) + 1
+        } else if (orderNum == 2) {
+            randomNum = Math.floor(Math.random() * 200) + 201
+        } else if(orderNum == 3) {
+            randomNum = Math.floor(Math.random() * 200) + 401
+        } else if(orderNum == 4) {
+            randomNum = Math.floor(Math.random() * 298) + 601
+        }
 
 
         await $.ajax({
             type: "GET",
-            url: `http://localhost:5000/pokemon/${randomNum}/`,
+            url: `https://pokeapi.co/api/v2/pokemon/${randomNum}/`,
             success: processPokeResp
         })
 
@@ -181,17 +181,17 @@ function processPokeResponse(data) {
                 loop++;
             }
         }
-        // if (type_g == 'grass') {
-        //     document.getElementById(data.id).style.backgroundColor = '#DEFDE0';
-        // } else if (type_g == 'electric') {
-        //     document.getElementById(data.id).style.backgroundColor = colors.electric;
-        // } else if (type_g == 'water') {
-        //     document.getElementById(data.id).style.backgroundColor = colors.water;
-        // } else if (type_g == 'bug') {
-        //     document.getElementById(data.id).style.backgroundColor = colors.bug;
-        // } else {
-        //     document.getElementById(data.id).style.backgroundColor = colors.fire;
-        // }
+        if (type_g == 'grass') {
+            document.getElementById(data.id).style.backgroundColor = '#DEFDE0';
+        } else if (type_g == 'electric') {
+            document.getElementById(data.id).style.backgroundColor = colors.electric;
+        } else if (type_g == 'water') {
+            document.getElementById(data.id).style.backgroundColor = colors.water;
+        } else if (type_g == 'bug') {
+            document.getElementById(data.id).style.backgroundColor = colors.bug;
+        } else {
+            document.getElementById(data.id).style.backgroundColor = colors.fire;
+        }
     }
 
 }
@@ -205,7 +205,7 @@ function loadNew() {
         // for each pokemon
         $.ajax({
             type: "get",
-            url: `http://localhost:5000/pokemon/${i}`,
+            url: `https://pokeapi.co/api/v2/pokemon/${i}`,
             success: processPokeResponse
         })
     }
@@ -286,7 +286,7 @@ function displayid(order_) {
     if (order == '0') {
         orderNum = 0
         start = 1;
-        end = 30
+        end = 898
 
     } else if(order == '1') {
         start = 1;
