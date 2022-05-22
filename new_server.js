@@ -8,34 +8,56 @@ const bodyparser = require("body-parser");
 
 var session = require('express-session')
 
-app.listen(process.env.PORT || 5000, function (err){
+app.listen(process.env.PORT || 5000, function (err) {
     if (err)
         console.log(err);
 })
 
+const mongoose = require('mongoose');
+
+app.use(bodyparser.urlencoded({
+    extended: true
+}));
+
+mongoose.connect("mongodb+srv://Leo:Lcyang0319.@cluster0.lbozp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true });
+
+// const timelineSchema = new mongoose.Schema({
+//     text: String,
+//     hits: Number,
+//     time: String
+// });
+
+const accountSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    shoppingCart: [],
+    orders: []
+});
+const accountModel = mongoose.model("accounts", accountSchema);
 
 app.use(session({ secret: 'ssshhhhh', saveUninitialized: true, resave: true }));
 
 users = [
     {
-        username : "user1",
+        username: "user1",
         password: "pass1",
-        shoppingCart:[
+        shoppingCart: [
             {
                 pokeID: 25,
-                price : 13,
+                price: 13,
                 quantity: 2
-            },{
+            }, {
 
                 pokeID: 35,
-                price : 40,
+                price: 40,
                 quantity: 5
             }
         ]
 
-    },{
+    }, {
 
-        username : "user2",
+        username: "user2",
         password: "pass2"
     }
 ]
@@ -90,182 +112,199 @@ app.get('/userProfile/:x', auth, function (req, res) {
 
 
 
-app.get('/login/', logger3, function (req, res, next) {
+app.get('/login', logger3, function (req, res, next) {
     console.log("the callback function of /login")
-    res.send("Please provide the credentials through the URL")
+    // res.send("Please provide the credentials through the URL")
+    res.sendFile(__dirname + "/public/login.html")
 })
 
 app.get('/login/:user/:pass', function (req, res, next) {
-    function hh (y) {
-        return y.username == req.params.user
-    }
-    if(users.filter( hh)[0].password == req.params.pass){
-    // if (users[req.params.user] == req.params.pass) {
-        req.session.authenticated = true
-        req.session.user = req.params.user
-        // res.send("Successful Login!")
-        res.redirect(`/userProfile/${req.params.user}`)
-    } else {
-        req.session.authenticated = false
-        res.send("Failed Login!")
-    }
-
-})
-
-
-const mongoose = require('mongoose');
-
-app.use(bodyparser.urlencoded({
-    extended: true
-}));
-
-mongoose.connect("mongodb+srv://Leo:Lcyang0319.@cluster0.lbozp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true });
-const timelineSchema = new mongoose.Schema({
-    text: String,
-    hits: Number,
-    time: String
-});
-const timelineModel = mongoose.model("timelines", timelineSchema);
-
-app.get('/timeline/getAllEvents', function (req, res) {
-    timelineModel.find({}, function (err, data) {
+    let username = req.params.user;
+	let password = req.params.pass;
+    accountModel.findOne({user: username, pass: password}, function (err, data) {
         if (err) {
             console.log("Error " + err);
         } else {
             console.log("Data " + data);
+        }
+        if (data) {
+            req.session.authenticated = true;
+            req.session.user = username;
+            req.session.pass = password;
         }
         res.send(data);
     });
+
 })
 
-const pokemonSchema = new mongoose.Schema({
-    id: Number,
-    name: String
-});
-const pokemonModel = mongoose.model("pokemons", pokemonSchema);
-
-app.get('/pokemon/:id', function (req, res) {
-    pokemonModel.find({
-        id: req.params.id,
-
+app.put('/create/:user/:pass', function (req, res) {
+    console.log(req.params.user);
+    let username = req.params.user;
+	let password = req.params.pass;
+    console.log(username, password);
+    accountModel.findOne({
+        user: username,
+        pass: password
     }, function (err, data) {
-        if (err) {
-            console.log("Error " + err);
+        if (data) {
+            res.send(null);
         } else {
-            console.log("Data " + data);
-        }
-        res.send(data[0]);
-    });
-})
-
-app.put('/timeline/insert', function (req, res) {
-    console.log(req.body)
-    timelineModel.create({
-        'text': req.body.text,
-        'time': req.body.time,
-        'hits': req.body.hits
-    }, function (err, data) {
-        if (err) {
-            console.log("Error " + err);
-        } else {
-            console.log("Data " + data);
-        }
-        res.send("Insertion is successful!");
-    });
-})
-
-app.get('/timeline/inscreaseHits/:id', function (req, res) {
-    // console.log(req.body)
-    timelineModel.updateOne({
-        '_id': req.params.id
-    },{
-        $inc: {'hits': 1}
-    } ,function (err, data) {
-        if (err) {
-            console.log("Error " + err);
-        } else {
-            console.log("Data " + data);
-        }
-        res.send("Update request is successful!");
-    });
-})
-
-app.get('/timeline/delete/:id', function (req, res) {
-    // console.log(req.body)
-    timelineModel.remove({
-        '_id': req.params.id
-    }, function (err, data) {
-        if (err) {
-            console.log("Error " + err);
-        } else {
-            console.log("Data " + data);
-        }
-        res.send("Delete request is successful!");
-    });
-})
-
-
-
-
-app.get('/profile/:id', function (req, res) {
-
-    const url =`https://pokeapi.co/api/v2/pokemon/${req.params.id}`
-
-    data = ""
-    https.get(url, function(https_res) {
-        https_res.on("data", function (chunk) {
-            data += chunk
-        })
-
-        https_res.on("end", function () {
-            data = JSON.parse(data)
-
-            hp = data.stats.filter((obj_) => {
-                return obj_.stat.name == "hp"
-            }).map((obj2)=>{
-                return obj2.base_stat
-            })
-
-            attack = data.stats.filter((obj_) => {
-                return obj_.stat.name == "attack"
-            }).map((obj2)=>{
-                return obj2.base_stat
-            })
-
-            defense = data.stats.filter((obj_) => {
-                return obj_.stat.name == "defense"
-            }).map((obj2)=>{
-                return obj2.base_stat
-            })
-
-            special_attack = data.stats.filter((obj_) => {
-                return obj_.stat.name == "special-attack"
-            }).map((obj2)=>{
-                return obj2.base_stat
-            })
-
-            speed = data.stats.filter((obj_) => {
-                return obj_.stat.name == "speed"
-            }).map((obj2)=>{
-                return obj2.base_stat
-            })
-
-            const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
-            res.render("profile.ejs", {
-                "id": req.params.id,
-                "name": upperCaseName,
-                "hp": hp[0],
-                "attack": attack,
-                "defense": defense,
-                "special_attack": special_attack,
-                "speed": speed,
+            accountModel.create({
+                user: username,
+                pass: password,
+                shoppingCart: [],
+                orders: []
+            }, function (err, data) {
+                if (err) {
+                    console.log("Error " + err);
+                } else {
+                    console.log("Data " + data);
+                }
+                res.send(data);
             });
-        })
-
+        };
     });
-
 })
+
+
+// app.get('/timeline/getAllEvents', function (req, res) {
+//     timelineModel.find({}, function (err, data) {
+//         if (err) {
+//             console.log("Error " + err);
+//         } else {
+//             console.log("Data " + data);
+//         }
+//         res.send(data);
+//     });
+// })
+
+// const pokemonSchema = new mongoose.Schema({
+//     id: Number,
+//     name: String
+// });
+// const pokemonModel = mongoose.model("pokemons", pokemonSchema);
+
+// app.get('/pokemon/:id', function (req, res) {
+//     pokemonModel.find({
+//         id: req.params.id,
+
+//     }, function (err, data) {
+//         if (err) {
+//             console.log("Error " + err);
+//         } else {
+//             console.log("Data " + data);
+//         }
+//         res.send(data[0]);
+//     });
+// })
+
+// app.put('/timeline/insert', function (req, res) {
+//     console.log(req.body)
+//     timelineModel.create({
+//         'text': req.body.text,
+//         'time': req.body.time,
+//         'hits': req.body.hits
+//     }, function (err, data) {
+//         if (err) {
+//             console.log("Error " + err);
+//         } else {
+//             console.log("Data " + data);
+//         }
+//         res.send("Insertion is successful!");
+//     });
+// })
+
+// app.get('/timeline/inscreaseHits/:id', function (req, res) {
+//     // console.log(req.body)
+//     timelineModel.updateOne({
+//         '_id': req.params.id
+//     }, {
+//         $inc: { 'hits': 1 }
+//     }, function (err, data) {
+//         if (err) {
+//             console.log("Error " + err);
+//         } else {
+//             console.log("Data " + data);
+//         }
+//         res.send("Update request is successful!");
+//     });
+// })
+
+// app.get('/timeline/delete/:id', function (req, res) {
+//     // console.log(req.body)
+//     timelineModel.remove({
+//         '_id': req.params.id
+//     }, function (err, data) {
+//         if (err) {
+//             console.log("Error " + err);
+//         } else {
+//             console.log("Data " + data);
+//         }
+//         res.send("Delete request is successful!");
+//     });
+// })
+
+
+
+
+// app.get('/profile/:id', function (req, res) {
+
+//     const url = `https://pokeapi.co/api/v2/pokemon/${req.params.id}`
+
+//     data = ""
+//     https.get(url, function (https_res) {
+//         https_res.on("data", function (chunk) {
+//             data += chunk
+//         })
+
+//         https_res.on("end", function () {
+//             data = JSON.parse(data)
+
+//             hp = data.stats.filter((obj_) => {
+//                 return obj_.stat.name == "hp"
+//             }).map((obj2) => {
+//                 return obj2.base_stat
+//             })
+
+//             attack = data.stats.filter((obj_) => {
+//                 return obj_.stat.name == "attack"
+//             }).map((obj2) => {
+//                 return obj2.base_stat
+//             })
+
+//             defense = data.stats.filter((obj_) => {
+//                 return obj_.stat.name == "defense"
+//             }).map((obj2) => {
+//                 return obj2.base_stat
+//             })
+
+//             special_attack = data.stats.filter((obj_) => {
+//                 return obj_.stat.name == "special-attack"
+//             }).map((obj2) => {
+//                 return obj2.base_stat
+//             })
+
+//             speed = data.stats.filter((obj_) => {
+//                 return obj_.stat.name == "speed"
+//             }).map((obj2) => {
+//                 return obj2.base_stat
+//             })
+
+//             const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
+//             res.render("profile.ejs", {
+//                 "id": req.params.id,
+//                 "name": upperCaseName,
+//                 "hp": hp[0],
+//                 "attack": attack,
+//                 "defense": defense,
+//                 "special_attack": special_attack,
+//                 "speed": speed,
+//             });
+//         })
+
+//     });
+
+// })
 
 app.use(express.static('./public'));
 
