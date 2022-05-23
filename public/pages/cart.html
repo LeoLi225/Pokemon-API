@@ -12,6 +12,8 @@
         body {
             background-color: wheat;
             font-family: 'BioRhyme', serif;
+            display: flex;
+            flex-direction: column;
         }
         h1 {
             display: flex;
@@ -20,10 +22,68 @@
         }
         main {
             display: flex;
-            flex-direction: column;
-            align-content: space-between;
+            flex-direction: row;
+            justify-content: space-around;
 
         }
+
+        #cart {
+            border-style: double;
+            border-width: thick;
+            padding-left: 1%;
+            padding-right: 1%;
+        }
+
+        #previous {
+            border-style: double;
+            border-width: thick;
+            padding-left: 1%;
+            padding-right: 1%;
+        }
+
+        .button {
+            background: none;
+            text-decoration: none;
+            color: black;
+            box-shadow: 0px 0px 0px 2px rgb(156, 224, 231);
+            border-radius: 3px;
+            padding: 5px 2em;
+            transition: 0.5s;
+        }
+
+        .button:hover {
+            background: gray;
+            color: white;
+            transition: 0.5s;
+        }
+
+        .image_container {
+            text-align: center;
+            background-color:  #eee;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 20px;
+        }
+
+        .image_container img {
+            margin-top: 20px;
+            max-width: 50%;
+        }
+        .a {
+            text-align: center;
+            color: rgb(32, 49, 72);
+            font-size: xx-large;
+        }
+
+        @media screen and (max-width: 900px) {
+            main{
+                flex-direction: column;
+                align-content: space-around;
+            }
+
+
+        }
+
 
     </style>
 
@@ -32,9 +92,28 @@
     <h1>
         Welcome to your Cart Page!
     </h1>
-    <button class="btn" id="back"><span class="material-icons">Back to main page</span></button>
+    <div>
+        <button class="btn button" id="back"><span class="material-icons">Back to main page</span></button>
+    </div>
+
+    <br>
 
     <main>
+        <div id="cart">
+            <h3 class="a">Your cart</h3>
+            <div id="box">
+
+            </div>
+
+        </div>
+        <br>
+        <div id="previous">
+            <h3 class="a">Previous Orders</h3>
+            <div id="box2">
+
+            </div>
+
+        </div>
 
     </main>
     <script src="../js/cart.js"></script>

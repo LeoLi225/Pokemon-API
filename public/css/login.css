@@ -88,6 +88,21 @@ header {
     transition: 0.5s;
 }
 
+/* The alert message box */
+.alertsuccess {
+    padding: 20px;
+    background-color: #04AA6D;
+    color: white;
+    margin-bottom: 15px;
+  }
+
+  .alertfailure {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+  }
+
 @media only screen and (max-width: 1000px) {
     .login {
         padding: 60px;

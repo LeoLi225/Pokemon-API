@@ -66,7 +66,7 @@ function process(data) {
         const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
         $("text" + loop).append(`
         <div class="image_container" id="${data.id}">
-            <a href="/profile/${data.id}">
+            <a href="/profile/${data.id}" id="${data.id * 3.5}" class="card">
             <img src="${data.sprites.other["official-artwork"].front_default}">
             </a>
             <div> Id: ${data.id} </div>
@@ -106,7 +106,7 @@ function processPokeResp(data) {
     const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
     to_add += `
     <div class="image_container">
-        <a href="/profile/${data.id}">
+        <a href="/profile/${data.id}" id="${data.id * 3.5}" class="card">
         <img src="${data.sprites.other["official-artwork"].front_default}">
         </a>
         <div> Id: ${data.id} </div>
@@ -171,7 +171,7 @@ function processPokeResponse(data) {
             const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
             $("text" + loop).append(`
             <div class="image_container" id="${data.id}">
-                <a href="/profile/${data.id}">
+                <a href="/profile/${data.id}"  id="${data.id * 3.5}" class="card">
                 <img src="${data.sprites.other["official-artwork"].front_default}">
                 </a>
                 <div> Id: ${data.id} </div>
@@ -184,17 +184,17 @@ function processPokeResponse(data) {
                 loop++;
             }
         }
-        if (type_g == 'grass') {
-            document.getElementById(data.id).style.backgroundColor = '#DEFDE0';
-        } else if (type_g == 'electric') {
-            document.getElementById(data.id).style.backgroundColor = colors.electric;
-        } else if (type_g == 'water') {
-            document.getElementById(data.id).style.backgroundColor = colors.water;
-        } else if (type_g == 'bug') {
-            document.getElementById(data.id).style.backgroundColor = colors.bug;
-        } else {
-            document.getElementById(data.id).style.backgroundColor = colors.fire;
-        }
+        // if (type_g == 'grass') {
+        //     document.getElementById(data.id).style.backgroundColor = '#DEFDE0';
+        // } else if (type_g == 'electric') {
+        //     document.getElementById(data.id).style.backgroundColor = colors.electric;
+        // } else if (type_g == 'water') {
+        //     document.getElementById(data.id).style.backgroundColor = colors.water;
+        // } else if (type_g == 'bug') {
+        //     document.getElementById(data.id).style.backgroundColor = colors.bug;
+        // } else {
+        //     document.getElementById(data.id).style.backgroundColor = colors.fire;
+        // }
     }
 
 }
@@ -247,13 +247,8 @@ var formatted = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds()
 
 function addNewEvent(poke_type) {
     $.ajax({
-        url: "http://localhost:5000/timeline/insert",
-        type: "put",
-        data: {
-            text: `Client has search for ${poke_type}`,
-            hits: 1,
-            time: now,
-        },
+        url: `http://localhost:5000/timeline/insert/${poke_type}/${formatted}`,
+        type: "get",
         success: (res) => {
             console.log(res)
         }
@@ -277,6 +272,25 @@ function addcart() {
 
 }
 
+function addtotimelines() {
+    x = this.id / 3.5;
+    console.log(x);
+    $.ajax({
+        url: `https://pokeapi.co/api/v2/pokemon/${x}`,
+        type: "get",
+        success: function (data) {
+            const upperCaseName = data.name[0].toUpperCase() + data.name.slice(1);
+            $.ajax({
+                url: `http://localhost:5000/addcard/${upperCaseName}/${formatted}`,
+                type: "get",
+                success: function (a) {
+                    console.log(a);
+                }
+            })
+        }
+    })
+}
+
 
 function setup() {
 
@@ -289,6 +303,7 @@ function setup() {
         addNewEvent(poke_type)
     })
     $("body").on("click", ".cart", addcart)
+    $("body").on("click", ".card", addtotimelines)
 }
 
 function setid() {
@@ -355,7 +370,7 @@ function Gocart() {
             if(a) {
                 window.location.href = 'http://localhost:5000/pages/cart.html';
             } else {
-                window.alert(`Please click 'Account' to login before add to cart`);
+                window.alert(`Please click 'Account' to login before check your cart`);
             }
         }
     })
