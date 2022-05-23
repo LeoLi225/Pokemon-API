@@ -112,7 +112,7 @@ app.put('/create/:user/:pass', function (req, res) {
     console.log(username, password);
     accountModel.findOne({
         user: username,
-        pass: hash(password)
+        pass: password
     }, function (err, data) {
         if (data) {
             res.send(null);
