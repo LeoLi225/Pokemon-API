@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@700&display=swap');
+        body {
+            background-color: wheat;
+            font-family: 'BioRhyme', serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            display: flex;
+            justify-content: center;
+            padding-top: 10px;
+        }
+
+        .button {
+            background: none;
+            text-decoration: none;
+            color: black;
+            box-shadow: 0px 0px 0px 2px rgb(156, 224, 231);
+            border-radius: 3px;
+            padding: 5px 2em;
+            transition: 0.5s;
+        }
+
+        .button:hover {
+            background: gray;
+            color: white;
+            transition: 0.5s;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #92a8d1;
+            /* padding: 14px 5px; */
+        }
+
+        .tog {
+            display: flex;
+            flex-direction: row;
+            /* justify-content: center; */
+        }
+
+        .select {
+            padding-top: 9%;
+        }
+
+        .start {
+            padding-top: 20%;
+        }
+
+        #game_grid{
+            border: 2px solid tomato;
+            width: 600px;
+            height: 400px;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            /* flex-direction: row; */
+            gap: 10px;
+            perspective: 1000px;
+        }
+
+        .card{
+            width: calc(33.3% - 10px);
+            position: relative;
+            transition: transform .5s;
+            transform-style: preserve-3d;
+            transform: scale(1);
+        }
+
+        .card:active {
+            transform: scale(.97);
+            transition: transform .2s;
+        }
+
+        .card.flip{
+            transform: rotateY(180deg);
+        }
+
+        img{
+            width: 100px;
+            height: 125px;
+        }
+
+        .front_face, .back_face{
+            position: absolute;
+            width: 100%;
+            height:100%;
+            backface-visibility: hidden;
+        }
+
+        .flip{
+            transform: rotateY(180deg);
+        }
+
+        .front_face{
+            transform: rotateY(180deg);
+        }
+
+        /* @media screen and (max-width: 900px) {
+            main{
+                flex-direction: column;
+                align-content: space-around;
+            }
+
+
+        } */
+
+    </style>
+    <!-- <script src="../js/code.js"></script> -->
+
+
+</head>
+
+<body>
+    <h1>
+        Let's play a game!
+    </h1>
+    <div>
+        <button class="btn button" id="back"><span class="material-icons">Back to main page</span></button>
+    </div>
+    <br>
+    <nav>
+        <div class="tog">
+            <div>
+                <h4>Select your Grid: </h4>
+            </div>
+            <div class="select">
+                <select name="grid_type" id="grid_type">
+                    <option value="low">2 x 4</option>
+                    <option value="mid">4 x 4</option>
+                    <option value="high">6 x 6</option>
+                </select>
+            </div>
+        </div>
+        <div class="tog">
+            <div>
+                <h4>Select game Level: </h4>
+            </div>
+            <div class="select">
+                <select name="level_type" id="level_type">
+                    <option value="easy">easy</option>
+                    <option value="medium">medium</option>
+                    <option value="hard">hard</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div class="start">
+                <button onclick = "startgame()" class="button" >Start!</button>
+            </div>
+
+        </div>
+
+
+    </nav>
+    <br>
+    <main>
+        <div>aa</div>
+
+
+    </main>
+
+
+    <script src="../js/game.js"></script>
+    <script src="../js/code.js"></script>
+
+
+
+</body>
+</html>

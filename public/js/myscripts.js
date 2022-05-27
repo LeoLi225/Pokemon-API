@@ -374,7 +374,21 @@ function Gocart() {
             }
         }
     })
+}
 
+function Gogame() {
+    $.ajax({
+        url: `http://localhost:5000/game`,
+        type: "get",
+        success: function (a) {
+            if(a) {
+                window.location.href = 'http://localhost:5000/pages/game.html';
+            } else {
+                window.alert(`Please 'Login' first, otherwise your data will not be recorded`);
+                window.location.href = 'http://localhost:5000/pages/game.html';
+            }
+        }
+    })
 }
 
 

@@ -69,7 +69,16 @@ app.get('/login', function (req, res) {
 
 app.get('/cart', function (req, res) {
     if(req.session.authenticated)
-    res.sendFile(__dirname + "/public/pages/cart.html")
+        res.sendFile(__dirname + "/public/pages/cart.html")
+    else {
+        res.send(null);
+    }
+
+})
+
+app.get('/game', function (req, res) {
+    if(req.session.authenticated)
+        res.sendFile(__dirname + "/public/pages/game.html")
     else {
         res.send(null);
     }
