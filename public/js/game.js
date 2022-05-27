@@ -6,7 +6,9 @@ $("#back").click(function () {
 
 grid = 'low'
 level = 'easy'
+pokenum = 'max'
 to_add = ''
+sel_add = ''
 a = 0;
 b = 0;
 total = 0;
@@ -24,13 +26,26 @@ function processPokeResp(data) {
 
 function listnum() {
     needNum = a * b / 2
-    for (i = 1; i <= needNum; i++) {
+    num = 0
+    if (pokenum == 'max') {
+        num = needNum
+    } else {
+        num = parseInt(pokenum)
+    }
+    for (i = 1; i <= num; i++) {
         randomNum = Math.floor(Math.random() * 898)
         list.push(randomNum)
     }
-    for (i = 0; i < needNum; i++) {
-        list.push(list[i])
+    repeatcardnum = needNum - num
+    if (repeatcardnum > 0) {
+        for (i = 1; i <= repeatcardnum; i++) {
+            list.push(list[Math.floor(Math.random() * num)])
+        }
     }
+
+    for (i = 0; i < needNum; i++) {
+            list.push(list[i])
+        }
 
 }
 
@@ -53,6 +68,7 @@ async function loadgame() {
     list = [];
     listnum();
     array = shuffle(list)
+    // console.log(array)
     for (i = 1; i <= total; i++) {
         loop = i
         if (i == 1) {
@@ -79,7 +95,7 @@ async function loadgame() {
 }
 
 function display(type_) {
-    // $("main").empty()
+    $("main").empty()
     to_add = ''
     if (type_ == "low") {
         a = 2;
@@ -99,20 +115,75 @@ function display(type_) {
 function startgame() {
     console.log(grid)
     console.log(level)
+    console.log(pokenum)
     display(grid)
 
+}
+
+function display2(data) {
+    if (data == 'low') {
+        $("#pokenum_type").empty()
+        sel_add = ''
+        sel_add += `
+            <option value="max">max</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        `
+        jQuery("#pokenum_type").html(sel_add)
+    } else if (data == 'mid') {
+        $("#pokenum_type").empty()
+        sel_add = ''
+        sel_add += `
+            <option value="max">max</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+        `
+        jQuery("#pokenum_type").html(sel_add)
+    } else {
+        $("#pokenum_type").empty()
+        sel_add = ''
+        sel_add += `
+            <option value="max">max</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+        `
+        jQuery("#pokenum_type").html(sel_add)
+    }
 }
 
 function setup() {
     $("#grid_type").change(() => {
         // alert($(this).attr("value"));
         grid = $("#grid_type option:selected").val();
+        display2(grid)
     })
 
     $("#level_type").change(() => {
         // alert($(this).attr("value"));
         level = $("#level_type option:selected").val();
     })
+
+
+
+    $("#pokenum_type").change(() => {
+        // alert($(this).attr("value"));
+        pokenum = $("#pokenum_type option:selected").val();
+    })
+
+
+
 }
 
 

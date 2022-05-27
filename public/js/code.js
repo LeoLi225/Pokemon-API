@@ -7,8 +7,8 @@ pairsFound = 0;
 function setup1() {
 
     // loadCards();
-    console.log(list.length);
-    console.log(pairsFound);
+    // console.log(list.length);
+    // console.log(pairsFound);
 
     $(".card").on("click",function () {
         if(lockBoard) return;
