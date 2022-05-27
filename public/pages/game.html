@@ -13,6 +13,7 @@
             font-family: 'BioRhyme', serif;
             display: flex;
             flex-direction: column;
+            padding-bottom: 5px;
         }
 
         h1 {
@@ -59,19 +60,30 @@
         }
 
         #game_grid{
-            border: 2px solid tomato;
-            width: 600px;
-            height: 400px;
+            /* border: 2px solid tomato; */
+            display: flex;
+            flex-direction: column;
+            /* height: 800px; */
+            /* width: 800px;
+            height: 800px;
             margin: auto;
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: wrap; */
             /* flex-direction: row; */
             gap: 10px;
             perspective: 1000px;
         }
 
+        .ggrid {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            /* height: 100px; */
+        }
+
         .card{
-            width: calc(33.3% - 10px);
+            width: calc(20%);
+            height: 200px;
             position: relative;
             transition: transform .5s;
             transform-style: preserve-3d;
@@ -107,18 +119,42 @@
             transform: rotateY(180deg);
         }
 
-        /* @media screen and (max-width: 900px) {
-            main{
-                flex-direction: column;
-                align-content: space-around;
+        @media screen and (max-width: 900px) and (min-width: 700px) {
+            .card {
+                height: 150px;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .card {
+                height: 100px;
             }
 
+            nav {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
 
-        } */
+            .tog {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .select {
+                    padding-top: 4%;
+            }
+
+            .start {
+                padding-top: 0%;
+                padding-bottom: 2%;
+                display: flex;
+                justify-content: center;
+            }
+        }
 
     </style>
-    <!-- <script src="../js/code.js"></script> -->
-
 
 </head>
 
@@ -139,7 +175,7 @@
                 <select name="grid_type" id="grid_type">
                     <option value="low">2 x 4</option>
                     <option value="mid">4 x 4</option>
-                    <option value="high">6 x 6</option>
+                    <option value="high">4 x 6</option>
                 </select>
             </div>
         </div>
@@ -155,7 +191,7 @@
                 </select>
             </div>
         </div>
-        <div>
+        <div id="startb">
             <div class="start">
                 <button onclick = "startgame()" class="button" >Start!</button>
             </div>

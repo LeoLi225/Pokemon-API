@@ -4,15 +4,6 @@ firstCard = undefined;
 secondCard = undefined;
 pairsFound = 0;
 
-// const cards = document.querySelectorAll('.card');
-
-// function flipCard() {
-//   console.log('I was clicked');
-//   console.log(this);
-// }
-
-// cards.forEach(card => card.addEventListener('click', flipCard));
-
 function setup1() {
 
     // loadCards();
@@ -43,7 +34,13 @@ function setup1() {
         ) {
             console.log("A Match!");
             pairsFound++;
-            disableCards();
+            if (pairsFound * 2 == list.length) {
+                disableCards();
+                alert("Win");
+            } else {
+                disableCards();
+            }
+
 
         } else {
             console.log("not a Match!");
@@ -70,11 +67,6 @@ function setup1() {
         [hasFlippedCard, lockBoard] = [false, false];
         [firstCard, secondCard] = [null, null];
     }
-
-    // (function shuffle(){
-    //     let randomPosition = Math.floor(Math.random() * 12);
-    //     $('.card').css("order", randomPosition);
-    // })();
 }
 
 $(document).ready(setup1)

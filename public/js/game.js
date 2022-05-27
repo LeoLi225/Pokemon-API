@@ -25,7 +25,7 @@ function processPokeResp(data) {
 function listnum() {
     needNum = a * b / 2
     for (i = 1; i <= needNum; i++) {
-        randomNum = Math.floor(Math.random() * 898) + 1
+        randomNum = Math.floor(Math.random() * 898)
         list.push(randomNum)
     }
     for (i = 0; i < needNum; i++) {
@@ -58,14 +58,20 @@ async function loadgame() {
         if (i == 1) {
             to_add += `<div id="game_grid">`
         }
+        if (i % b == 1) {
+            to_add += `<div class="ggrid">`
+        }
         await $.ajax({
             type: "get",
             url: `https://pokeapi.co/api/v2/pokemon/${array[i - 1]}`,
             success: processPokeResp
         })
 
-        if (i == total) {
+        if (i % b == 0) {
             to_add += `</div>`
+        }
+        if (i == total) {
+            to_add += `</div">`
         }
     }
 
@@ -85,7 +91,7 @@ function display(type_) {
         loadgame();
     } else {
         a = 6;
-        b = 6;
+        b = 4;
         loadgame();
     }
 }
