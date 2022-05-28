@@ -14,6 +14,9 @@ b = 0;
 total = 0;
 loop = 0
 list = []
+time = 30;
+result = ''
+counter = 1
 
 
 function processPokeResp(data) {
@@ -112,11 +115,57 @@ function display(type_) {
     }
 }
 
+
+function setgame() {
+    $.ajax({
+        url: `http://localhost:5000/game/insert/${grid}/${level}/${pokenum}/${result}/${formatted}`,
+        type: "put",
+        success: (res) => {
+            console.log(res)
+        }
+    })
+}
+
+function settime() {
+    var downloadTimer = setInterval(function(){
+        if(timeleft <= 0){
+          clearInterval(downloadTimer);
+          document.getElementById("timer").innerHTML = "Lose";
+          result = "Lose"
+          setgame();
+        } else {
+          document.getElementById("timer").innerHTML = timeleft;
+        }
+
+        if ((pairsFound * 2 == list.length) && timeleft > 0 && counter == 1) {
+            document.getElementById("timer").innerHTML = "Win"
+            result = "Win"
+            counter++
+            setgame()
+            clearInterval(downloadTimer)
+
+        } else {
+           timeleft -= 1;
+        }
+
+      }, 1000);
+}
+
 function startgame() {
     console.log(grid)
     console.log(level)
     console.log(pokenum)
+    var now = new Date(Date.now());
+    var format = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+    formatted = format
+    counter = 1
+    $("#timer").empty()
+    timeleft = time
+    pairsFound = 0
+
     display(grid)
+    settime(timeleft)
+
 
 }
 
@@ -163,27 +212,47 @@ function display2(data) {
     }
 }
 
+function display3() {
+    if (grid == 'low' && level == 'easy') {
+        time = 30
+    } else if (grid == 'low' && level == 'medium') {
+        time = 20
+    } else if (grid == 'low' && level == 'hard') {
+        time = 10
+    } else if (grid == 'mid' && level == 'easy') {
+        time = 40
+    } else if (grid == 'mid' && level == 'medium') {
+        time = 30
+    } else if (grid == 'mid' && level == 'hard') {
+        time = 20
+    } else if (grid == 'high' && level == 'easy') {
+        time = 60
+    } else if (grid == 'high' && level == 'medium') {
+        time = 45
+    } else {
+        time = 30
+    }
+}
+
 function setup() {
     $("#grid_type").change(() => {
         // alert($(this).attr("value"));
         grid = $("#grid_type option:selected").val();
         display2(grid)
+        display3()
     })
 
     $("#level_type").change(() => {
         // alert($(this).attr("value"));
         level = $("#level_type option:selected").val();
+        display3()
     })
-
 
 
     $("#pokenum_type").change(() => {
         // alert($(this).attr("value"));
         pokenum = $("#pokenum_type option:selected").val();
     })
-
-
-
 }
 
 

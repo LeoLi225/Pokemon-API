@@ -36,13 +36,7 @@ function setup1() {
         ) {
             console.log("A Match!");
             pairsFound++;
-            if (pairsFound * 2 == list.length) {
-                disableCards();
-                alert("Win");
-            } else {
-                disableCards();
-            }
-
+            disableCards();
 
         } else {
             console.log("not a Match!");

@@ -52,6 +52,34 @@ function add() {
     )
 }
 
+function addgame() {
+    $.ajax({
+        type: "get",
+        url: `http://localhost:5000/account`,
+        success: function (data) {
+            loop = data.game.length
+            for (i = 0; i < loop; i++) {
+                $("#content").append(
+                    `
+                <div class="boxgame">
+                    <h2>User Choice</h2>
+                    <div>Grid:  ${data.game[i].grid}</div>
+                    <div>Level:  ${data.game[i].level}</div>
+                    <div>Pokemon number:  ${data.game[i].pokenum}</div>
+                    <div>Time:  ${data.game[i].time}</div>
+                    <h2>Result</h2>
+                    <h4>${data.game[i].result}</h4>
+                    <button class="dgameButtons" onClick="window.location.reload(true)" id="${data.game[i].time}"> Delete </button>
+                <div>
+                `
+                )
+                $("#content").append(`</text>`)
+            }
+        }
+    }
+    )
+}
+
 function deleteb() {
     x = this.id
     $.ajax({
@@ -64,10 +92,23 @@ function deleteb() {
 
 }
 
+function dgameButtons() {
+    x = this.id
+    $.ajax({
+        url: `http://localhost:5000/game/delete/${x}`,
+        type: "get",
+        success: function (x) {
+            console.log(x)
+        }
+    })
+}
+
 function setup() {
     add()
+    addgame()
 
     $("main").on("click", ".dButtons", deleteb)
+    $("main").on("click", ".dgameButtons", dgameButtons)
 }
 
 $(document).ready(setup)

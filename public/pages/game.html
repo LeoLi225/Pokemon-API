@@ -119,6 +119,36 @@
             transform: rotateY(180deg);
         }
 
+        main {
+                padding-top: 50px;
+                padding-bottom: 50px;
+        }
+
+        #timerbox {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+        }
+
+        #timer {
+            border-style: double;
+            border-width: thick;
+            padding-left: 5px;
+            padding-right: 5px;
+            color: rgb(139, 61, 38);
+            background-color: aliceblue;
+
+        }
+
+        #show {
+            display: flex;
+            justify-content: center;
+            font-size: xx-large;
+            color: #487881;
+        }
+
+
+
         @media screen and (max-width: 900px) and (min-width: 700px) {
             .card {
                 height: 150px;
@@ -152,6 +182,7 @@
                 display: flex;
                 justify-content: center;
             }
+
         }
 
     </style>
@@ -160,10 +191,11 @@
 
 <body>
     <h1>
-        Let's play a game!
+        Matching Game
     </h1>
-    <div>
-        <button class="btn button" id="back"><span class="material-icons">Back to main page</span></button>
+    <div id="navtop">
+        <div><button class="btn button" id="back"><span class="material-icons">Back to main page</span></button></div>
+        <div></div>
     </div>
     <br>
     <nav>
@@ -207,15 +239,13 @@
             <div class="start">
                 <button onclick = "startgame()" class="button" >Start!</button>
             </div>
-
         </div>
-
-
     </nav>
     <br>
+    <div id="timerbox"><div id="timer">Timer</div></div>
+    <br>
     <main>
-        <div>aa</div>
-
+        <div id="show">Let's play a game!</div>
 
     </main>
 

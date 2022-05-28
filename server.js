@@ -32,7 +32,8 @@ const accountSchema = new mongoose.Schema({
     pass: String,
     cart: [],
     orders: [],
-    timelines: []
+    timelines: [],
+    game: []
 });
 const accountModel = mongoose.model("accounts", accountSchema);
 
@@ -112,6 +113,35 @@ app.get('/account', function (req, res) {
         }
         res.send(data);
     });
+})
+
+app.put('/game/insert/:grid/:level/:pokenum/:result/:time', function (req, res) {
+    if(req.session.authenticated) {
+        accountModel.updateOne({
+                user: req.session.user,
+                pass: req.session.pass
+            }, {
+                $push: {
+                    game: {
+                        grid: req.params.grid,
+                        level: req.params.level,
+                        pokenum: req.params.pokenum,
+                        result: req.params.result,
+                        time: req.params.time
+                    }
+                }
+            },
+            function (err, data) {
+                if (err) {
+                    console.log("Error " + err);
+                } else {
+                    console.log("Data " + data);
+                }
+                res.send("Game insertion is successful!");
+            });
+    } else {
+        res.send(null);
+    }
 })
 
 app.put('/create/:user/:pass', function (req, res) {
@@ -296,6 +326,27 @@ app.get('/timeline/delete/:id', function (req, res) {
         $pull: {
             timelines: {
                 text: req.params.id
+            }
+        }
+    }, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send("Delete request is successful!");
+    });
+})
+
+app.get('/game/delete/:id', function (req, res) {
+    // console.log(req.body)
+    accountModel.updateOne({
+        user: req.session.user,
+        pass: req.session.pass
+    }, {
+        $pull: {
+            game: {
+                time: req.params.id
             }
         }
     }, function (err, data) {
