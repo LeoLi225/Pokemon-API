@@ -1,4 +1,12 @@
 
+function gomain() {
+    window.location.href = 'http://localhost:5000';
+}
+
+function goadmin() {
+    window.location.href = 'http://localhost:5000/pages/adminlogin.html';
+}
+
 $("#do-login").click(function () {
     $.ajax({
         type: "get",

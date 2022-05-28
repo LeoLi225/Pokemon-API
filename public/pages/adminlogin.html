@@ -6,35 +6,31 @@
     <title>Login Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/adminlogin.css">
 
 </head>
 
 <body>
     <header>
+        <br> <br>
         <h1>Pokemon API</h1>
-
+        <br> <br>
     </header>
-
-    <nav>
-        <button onclick = "gomain()" class="button">Back to main</button>
-        <button onclick = "goadmin()" class="button">Admin Account</button>
-    </nav>
+    <nav><button onclick = "gouser()" class="button">Back to regular user</button></nav>
 
     <section class="login" id="login">
-        <div class="title">Let's Login!</div>
+        <div class="title">Welcome Admin</div>
         <br> <br> <br>
         <div class="form" id="reg-form">
             <form>
                 <input id="user" type="text" placeholder="Username" class="text" name="username" required><br>
                 <input id="pass" type="password" placeholder="Password" class="password" name="password" required><br>
                 <br>
-                <input type="button" href="#" class="btn-login" id="do-login" value="Login">
-                <input type="button" href="#" class="btn-login" id="do-create" value="Create Account">
+                <div id="lbutton"><input type="button" href="#" class="btn-login" id="do-login" value="Login"></div>
             </form>
         </div>
     </section>
-    <script src="../js/login.js"></script>
+    <script src="../js/adminlogin.js"></script>
 
 </body>
 

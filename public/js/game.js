@@ -28,6 +28,7 @@ function processPokeResp(data) {
 }
 
 function listnum() {
+    //4
     needNum = a * b / 2
     num = 0
     if (pokenum == 'max') {
@@ -35,12 +36,13 @@ function listnum() {
     } else {
         num = parseInt(pokenum)
     }
+
     for (i = 1; i <= num; i++) {
         randomNum = Math.floor(Math.random() * 898)
         list.push(randomNum)
     }
     repeatcardnum = needNum - num
-    if (repeatcardnum > 0) {
+    if (repeatcardnum > 0) {                                //list = [1, 2]  // need 8 cards // need 4 pokemon  // 2 pokemon //2
         for (i = 1; i <= repeatcardnum; i++) {
             list.push(list[Math.floor(Math.random() * num)])
         }
@@ -48,7 +50,7 @@ function listnum() {
 
     for (i = 0; i < needNum; i++) {
             list.push(list[i])
-        }
+    }
 
 }
 
@@ -238,6 +240,7 @@ function setup() {
     $("#grid_type").change(() => {
         // alert($(this).attr("value"));
         grid = $("#grid_type option:selected").val();
+
         display2(grid)
         display3()
     })

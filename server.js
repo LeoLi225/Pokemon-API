@@ -35,7 +35,13 @@ const accountSchema = new mongoose.Schema({
     timelines: [],
     game: []
 });
+
+const adminaccountSchema = new mongoose.Schema({
+    user: String,
+    pass: String,
+});
 const accountModel = mongoose.model("accounts", accountSchema);
+const adminaccountModel = mongoose.model("adminaccounts", adminaccountSchema);
 
 app.get('/cart/getAllEvents', function (req, res) {
     accountModel.find({
@@ -101,6 +107,66 @@ app.get('/login/:user/:pass', function (req, res) {
             req.session.pass = password;
         }
         res.send(data);
+    });
+})
+
+app.get('/adminlogin/:user/:pass', function (req, res) {
+    let adminusername = req.params.user;
+	let adminpassword = req.params.pass;
+    adminaccountModel.findOne({user: adminusername, pass: adminpassword}, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        if (data) {
+            req.session.adminauthenticated = true;
+            req.session.adminuser = adminusername;
+            req.session.adminpass = adminpassword;
+        }
+        res.send(data);
+    });
+})
+
+app.put('/admincreate/:user/:pass', function (req, res) {
+
+    let adminusername = req.params.user;
+	let adminpassword = req.params.pass;
+
+    adminaccountModel.findOne({
+        user: adminusername,
+        pass: adminpassword
+    }, function (err, data) {
+        if (data) {
+            res.send(null);
+        } else {
+            adminaccountModel.create({
+                user: adminusername,
+                pass: adminpassword,
+            }, function (err, data) {
+                if (err) {
+                    console.log("Error " + err);
+                } else {
+                    console.log("Data " + data);
+                }
+                res.send(data);
+            });
+        };
+    });
+})
+
+app.put('/admininsert', function (req, res) {
+    console.log(req.body)
+    adminaccountModel.create({
+        user: req.body.user,
+        pass: req.body.pass,
+    }, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send("Insertion is successful!");
     });
 })
 
