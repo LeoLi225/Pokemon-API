@@ -9,7 +9,7 @@ $("#do-login").click(function () {
         success: function (data) {
             console.log(data);
             if (data) {
-                window.location.href = `http://localhost:5000/pages/profile.html`;
+                window.location.href = `http://localhost:5000/pages/dashboard.html`;
             } else {
                 $("#login").append(`<br><div class="alertfailure">
           <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>

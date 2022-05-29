@@ -170,6 +170,89 @@ app.put('/admininsert', function (req, res) {
     });
 })
 
+app.get('/adminaccount', function (req, res) {
+    adminaccountModel.findOne({user: req.session.adminuser, pass: req.session.adminpass}, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send(data);
+    });
+})
+
+app.get('/alluser', function (req, res) {
+    accountModel.find(
+        function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send(data);
+    });
+})
+
+app.get('/alladmin', function (req, res) {
+    adminaccountModel.find(
+        function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send(data);
+    });
+})
+
+app.get('/uname/:new/:old', function (req, res) {
+    accountModel.updateOne({
+        _id: req.params.old
+    }, {
+        user: req.params.new
+    },
+        function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send(data);
+    });
+})
+
+app.get('/upass/:new/:pass', function (req, res) {
+    accountModel.updateOne({
+        pass: req.params.pass
+    }, {
+        pass: req.params.new
+    },
+        function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send(data);
+    });
+})
+
+app.get('/deleteuser/:id', function (req, res) {
+    // console.log(req.body)
+    accountModel.deleteOne({
+        user: req.params.id
+     },
+    function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        res.send("Delete request is successful!");
+    });
+})
+
+
 app.get('/account', function (req, res) {
     accountModel.findOne({user: req.session.user, pass: req.session.pass}, function (err, data) {
         if (err) {
