@@ -292,6 +292,33 @@ app.put('/game/insert/:grid/:level/:pokenum/:result/:time', function (req, res) 
     }
 })
 
+app.put('/acreate/:user/:pass', function (req, res) {
+
+    let username = req.params.user;
+	let password = req.params.pass;
+
+    adminaccountModel.findOne({
+        user: username,
+        pass: password
+    }, function (err, data) {
+        if (data) {
+            res.send(null);
+        } else {
+            adminaccountModel.create({
+                user: username,
+                pass: password,
+            }, function (err, data) {
+                if (err) {
+                    console.log("Error " + err);
+                } else {
+                    console.log("Data " + data);
+                }
+                res.send(data);
+            });
+        };
+    });
+})
+
 app.put('/create/:user/:pass', function (req, res) {
     console.log(req.params.user);
     let username = req.params.user;

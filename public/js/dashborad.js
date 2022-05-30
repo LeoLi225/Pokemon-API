@@ -91,6 +91,46 @@ function userlogin() {
     `)
 }
 
+function adminlogin() {
+    $("#adminlogin").empty()
+    $("#adminlogin").append(`
+    <form class="box0">
+        <div "basic">
+            Admin-name: <input id="auser" type="text" placeholder="Adminname" class="text" name="username" required><br>
+            Password: <input id="apass" type="password" placeholder="Password" class="password" name="password" required><br>
+            <br>
+            <input type="button" href="#" class="alogin" id="ado-create" value="Create Account">
+        </div>
+        <div id="ahere">
+        </div>
+
+    </form>
+    `)
+}
+
+function alogin() {
+    $.ajax({
+        type: "put",
+        url: `http://localhost:5000/acreate/${document.getElementById("auser").value}/${document.getElementById("apass").value}`,
+        success: function (x) {
+            if (x) {
+                console.log(x);
+                $("#ahere").append(`<br>
+                <div class="alertsuccess">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    Successfully created account.
+                </div>`);
+            } else {
+                $("#ahere").append(`<br>
+                <div class="alertfailure">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <p>Failed to create account.</p><p>Username and password combination is taken.</p>
+                </div>`);
+            }
+        }
+    })
+}
+
 function clogin() {
     $.ajax({
         type: "put",
@@ -154,11 +194,13 @@ function setup() {
     adduser()
     addadmin()
     userlogin()
+    adminlogin()
 
     $("body").on("click", ".updatename", uname)
     $("body").on("click", ".updatepass", upass)
     $("main").on("click", ".deleteuser", deleteb)
     $("main").on("click", ".clogin", clogin)
+    $("main").on("click", ".alogin", alogin)
 
 }
 
